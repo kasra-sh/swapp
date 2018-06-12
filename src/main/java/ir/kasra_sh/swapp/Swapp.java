@@ -14,7 +14,9 @@ import ir.kasra_sh.swapp.routing.Router;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static ir.kasra_sh.nanoserver.http.response.ResponseCode.METHOD_NOT_ALLOWED;
 
@@ -24,6 +26,7 @@ public final class Swapp {
     private ExceptionHandler exceptionHandler;
     private boolean started = false;
     private Router router = new Router();
+    private ConcurrentHashMap<String, String> cheaders=new ConcurrentHashMap<>();
 
     public final void start(int port) {
         start(port, 0);
@@ -64,6 +67,12 @@ public final class Swapp {
         return this;
     }
 
+    public final Swapp addCustomHeader(String key, String value){
+        cheaders.remove(key);
+        cheaders.put(key,value);
+        return this;
+    }
+
     public final Swapp addModule(SwappModule module) {
         for (Map.Entry<Route, BaseHandler> rh: module.getModulePaths().entrySet()){
             router.addRoute(rh.getKey(), rh.getValue());
@@ -101,6 +110,9 @@ public final class Swapp {
 
         @Override
         public void handleRequest(Request request, ResponseWriter responseWriter) {
+            for (Map.Entry<String,String> ch: cheaders.entrySet()) {
+                request.putHeader(ch.getKey(), ch.getValue());
+            }
             MatchedRoute mr = null;
             try {
                 mr = router.route(request.getUrl());
