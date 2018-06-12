@@ -121,12 +121,12 @@ public final class Swapp {
                         Response resp = r.header("Connection","close");
 //                        resp.body(compress(resp))
                         if (resp.isStreamBody()) {
-//                            System.out.println("resp.isStreamBody() = " + resp.isStreamBody());
-//                            System.out.println("resp.getSBodyLen() = " + resp.getSBodyLen());
-
                             responseWriter.writeStream(resp.asByteArray(), resp.getSBody(), resp.getSBodyLen());
+                            reqLog(resp.getStatus(), request.getAddress().toString(), request.getUrl(), request.method());
+
                         } else {
                             responseWriter.write(resp);
+                            reqLog(resp.getStatus(), request.getAddress().toString(), request.getUrl(), request.method());
                         }
                     }
                 }
