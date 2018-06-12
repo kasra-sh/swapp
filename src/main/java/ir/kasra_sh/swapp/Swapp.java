@@ -110,20 +110,17 @@ public final class Swapp {
 
         @Override
         public void handleRequest(Request request, ResponseWriter responseWriter) {
-            for (Map.Entry<String,String> ch: cheaders.entrySet()) {
-                request.putHeader(ch.getKey(), ch.getValue());
-            }
             MatchedRoute mr = null;
             try {
                 mr = router.route(request.getUrl());
                 if (mr == null) {
                     reqLog(404, request.getAddress().toString(), request.getUrl(), request.method());
-                    responseWriter.write(ErrorHandlers.err404.handle(request, null));
+                    responseWriter.write(injectCustom(ErrorHandlers.err404.handle(request, null)));
                 } else {
                     if (!mr.getRoute().getMethods().contains(request.method()) && !mr.getRoute().getMethods().isEmpty()) {
                         Log.i("Route", "405 - "+request.method());
                         reqLog(METHOD_NOT_ALLOWED, request.getAddress().toString(), request.getUrl(), request.method());
-                        responseWriter.write(Responses.err(METHOD_NOT_ALLOWED, "405 - Method not allowed "+request.method()));
+                        responseWriter.write(injectCustom(Responses.err(METHOD_NOT_ALLOWED, "405 - Method not allowed "+request.method())));
                         return;
                     }
                     Extras extras = new Extras(mr.getRequestPath());
@@ -133,11 +130,12 @@ public final class Swapp {
                         Response resp = r.header("Connection","close");
 //                        resp.body(compress(resp))
                         if (resp.isStreamBody()) {
+                            injectCustom(resp);
                             responseWriter.writeStream(resp.asByteArray(), resp.getSBody(), resp.getSBodyLen());
                             reqLog(resp.getStatus(), request.getAddress().toString(), request.getUrl(), request.method());
 
                         } else {
-                            responseWriter.write(resp);
+                            responseWriter.write(injectCustom(resp));
                             reqLog(resp.getStatus(), request.getAddress().toString(), request.getUrl(), request.method());
                         }
                     }
@@ -155,6 +153,13 @@ public final class Swapp {
                 }
 //                e.printStackTrace();
             }
+        }
+
+        private Response injectCustom(Response r){
+            for (Map.Entry<String,String> ch: cheaders.entrySet()) {
+                r.header(ch.getKey(), ch.getValue());
+            }
+            return r;
         }
 
         private void doNotFound(Request r, ResponseWriter w) {
