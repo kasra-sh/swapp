@@ -11,7 +11,7 @@ public class Test extends SwappModule {
         get("/sync/get", ((r, ex) -> Responses.ok("I am a simple sync response! (GET)\n")));
 
         post("/test", ((r, ex) -> {
-            return Responses.json(200, new String(r.getBody())).header("Access-Control-Allow-Origin","*");
+            return Responses.json(200, new String(r.getBody()));
         }));
 
         get("/async/get", (r, ex) -> {
@@ -37,7 +37,7 @@ public class Test extends SwappModule {
         staticAsset("/static","/home/USER/uploads", null);
 
         // Start server with [Number Of Processors] workers
-        new Swapp().addModule(this).start(8000);
+        new Swapp().addCustomHeader("Access-Control-Allow-Origin","*").addModule(this).start(8000);
 
 //        // Start server with 1 worker
 //        // if workers is set to <=0 the default value will be used

@@ -14,9 +14,7 @@ import ir.kasra_sh.swapp.routing.Router;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 import static ir.kasra_sh.nanoserver.http.response.ResponseCode.METHOD_NOT_ALLOWED;
 
@@ -26,7 +24,8 @@ public final class Swapp {
     private ExceptionHandler exceptionHandler;
     private boolean started = false;
     private Router router = new Router();
-    private ConcurrentHashMap<String, String> cheaders=new ConcurrentHashMap<>();
+    private HashMap<String, String> cHeaders =new HashMap<>();
+    private Set<Map.Entry<String,String>> cHeaderSet;
 
     public final void start(int port) {
         start(port, 0);
@@ -68,8 +67,9 @@ public final class Swapp {
     }
 
     public final Swapp addCustomHeader(String key, String value){
-        cheaders.remove(key);
-        cheaders.put(key,value);
+        cHeaders.remove(key);
+        cHeaders.put(key,value);
+        cHeaderSet = cHeaders.entrySet();
         return this;
     }
 
@@ -118,7 +118,7 @@ public final class Swapp {
                     responseWriter.write(injectCustom(ErrorHandlers.err404.handle(request, null)));
                 } else {
                     if (!mr.getRoute().getMethods().contains(request.method()) && !mr.getRoute().getMethods().isEmpty()) {
-                        Log.i("Route", "405 - "+request.method());
+//                        Log.i("Route", "405 - "+request.method());
                         reqLog(METHOD_NOT_ALLOWED, request.getAddress().toString(), request.getUrl(), request.method());
                         responseWriter.write(injectCustom(Responses.err(METHOD_NOT_ALLOWED, "405 - Method not allowed "+request.method())));
                         return;
@@ -156,7 +156,7 @@ public final class Swapp {
         }
 
         private Response injectCustom(Response r){
-            for (Map.Entry<String,String> ch: cheaders.entrySet()) {
+            for (Map.Entry<String,String> ch: cHeaderSet) {
                 r.header(ch.getKey(), ch.getValue());
             }
             return r;
