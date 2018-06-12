@@ -108,7 +108,8 @@ public final class Swapp {
                     reqLog(404, request.getAddress().toString(), request.getUrl(), request.method());
                     responseWriter.write(ErrorHandlers.err404.handle(request, null));
                 } else {
-                    if (!mr.getRoute().getMethods().contains(request.method())) {
+                    if (!mr.getRoute().getMethods().contains(request.method()) && !mr.getRoute().getMethods().isEmpty()) {
+                        Log.i("Route", "405 - "+request.method());
                         reqLog(METHOD_NOT_ALLOWED, request.getAddress().toString(), request.getUrl(), request.method());
                         responseWriter.write(Responses.err(METHOD_NOT_ALLOWED, "405 - Method not allowed "+request.method()));
                         return;

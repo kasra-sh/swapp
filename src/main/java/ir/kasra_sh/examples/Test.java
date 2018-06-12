@@ -1,5 +1,6 @@
 package ir.kasra_sh.examples;
 
+import ir.kasra_sh.nanoserver.utils.MimeTypes;
 import ir.kasra_sh.swapp.Async;
 import ir.kasra_sh.swapp.Responses;
 import ir.kasra_sh.swapp.Swapp;
@@ -9,6 +10,9 @@ public class Test extends SwappModule {
     {
         get("/sync/get", ((r, ex) -> Responses.ok("I am a simple sync response! (GET)\n")));
 
+        post("/test", ((r, ex) -> {
+            return Responses.json(200, new String(r.getBody())).header("Access-Control-Allow-Origin","*");
+        }));
 
         get("/async/get", (r, ex) -> {
             Async.execute(r, ex.getWriter(), () -> Responses.ok("I am a simple [Async] response! (GET)\n"));
@@ -33,11 +37,11 @@ public class Test extends SwappModule {
         staticAsset("/static","/home/USER/uploads", null);
 
         // Start server with [Number Of Processors] workers
-        new Swapp().addModule(this).start(8001);
+        new Swapp().addModule(this).start(8000);
 
-        // Start server with 1 worker
-        // if workers is set to <=0 the default value will be used
-        new Swapp().addModule(this).start(8000,1);
+//        // Start server with 1 worker
+//        // if workers is set to <=0 the default value will be used
+//        new Swapp().addModule(this).start(8000,1);
 
     }
 
