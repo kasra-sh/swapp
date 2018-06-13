@@ -1,12 +1,10 @@
 package ir.kasra_sh.swapp;
 
-import ir.kasra_sh.nanoserver.http.request.HTTPMethod;
 import ir.kasra_sh.nanoserver.http.request.Request;
 import ir.kasra_sh.nanoserver.http.response.Response;
 import ir.kasra_sh.nanoserver.server.nio.ResponseWriter;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 public class Async {
@@ -14,7 +12,7 @@ public class Async {
         Response run();
     }
 
-    private static final Executor executor = Executors.newCachedThreadPool();
+    private static final Executor executor = new ForkJoinPool(20);
 
     public static final void execute(Request r, ResponseWriter writer, Task task) {
         executor.execute(new Runnable() {
