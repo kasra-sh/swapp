@@ -1,6 +1,5 @@
 package ir.kasra_sh.examples;
 
-import ir.kasra_sh.nanoserver.utils.MimeTypes;
 import ir.kasra_sh.swapp.Async;
 import ir.kasra_sh.swapp.Responses;
 import ir.kasra_sh.swapp.Swapp;

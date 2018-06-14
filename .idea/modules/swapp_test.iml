@@ -10,7 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="swapp_main" />
-    <orderEntry type="library" name="Gradle: com.github.kasra-sh:nanoserver:0.8.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kasra-sh:picohttpd:0.8.3" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="swapp_main" />
 </module>

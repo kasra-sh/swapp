@@ -1,6 +1,6 @@
 # SWAPP Framework
 [![](https://jitpack.io/v/kasra-sh/swapp.svg)](https://jitpack.io/#kasra-sh/swapp)
-#### Simple-Lightweight-Fast Java Web Framework (using [NanoServer](https://github.com/kasra-sh/nanoserver.git))
+#### Simple-Lightweight-Fast Java Web Framework (using [PicoHTTPd](https://github.com/kasra-sh/picohttpd.git))
 #### Who should use this?
 1. Server/Website developers who hate C<u>()</u>m<s>PLE</s>x<i>IT</i><b>Y</b>!
 2. Mobile developers trying to write a simple(or advanced) API for their apps!
