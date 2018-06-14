@@ -18,7 +18,7 @@ repositories {
 ```java
 dependencies {
 	...
-	compile 'com.github.kasra-sh:swapp:1.0.8'
+	compile 'com.github.kasra-sh:swapp:1.0.9'
 }
 ```
 
