@@ -81,7 +81,7 @@ public abstract class SwappModule {
                 if (fp.endsWith("/") && fp.length() > 1) {
                     fp = fp.substring(0, fp.length() - 1);
                 }
-                fp += ex.pathExtras(false, false);
+                fp += ex.pathExtras(true, false);
                 System.out.println("fp : "+fp);
                 String[] e = fp.split("\\.");
                 String ext = "";
