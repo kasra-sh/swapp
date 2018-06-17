@@ -4,10 +4,13 @@ package ir.kasra_sh.swapp;
 import ir.kasra_sh.picohttpd.http.request.HTTPMethod;
 import ir.kasra_sh.picohttpd.http.request.Request;
 import ir.kasra_sh.picohttpd.http.response.Response;
+import ir.kasra_sh.picohttpd.http.response.ResponseCode;
 import ir.kasra_sh.swapp.routing.Route;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,6 +84,7 @@ public abstract class SwappModule {
                 if (fp.endsWith("/") && fp.length() > 1) {
                     fp = fp.substring(0, fp.length() - 1);
                 }
+                if (isPathTraversal(r.getUrl())) return Responses.err(ResponseCode.BAD_REQUEST, "Bad Request: Path Traversal!\n");
                 String pe = ex.pathExtras(false, false);
                 if (!pe.startsWith("/") && !fp.endsWith("/")) {
                     fp = fp + "/" + pe;
@@ -134,6 +138,17 @@ public abstract class SwappModule {
             return Responses.err(404, "File not found: " + filePath);
         }
     };
+
+    public static final boolean isPathTraversal(String s) {
+        try {
+            String ud = URLDecoder.decode(s, "UTF-8");
+            if (ud.contains("../")) return true;
+            if (ud.contains("\0")) return true;
+        } catch (UnsupportedEncodingException e) {
+        }
+        return false;
+    }
+
 
     public HashMap<Route, BaseHandler> getModulePaths() {
         return modulePaths;

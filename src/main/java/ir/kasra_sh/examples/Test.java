@@ -36,20 +36,7 @@ public class Test extends SwappModule {
         });
 
         // /home/USER/uploads/index.html -> will be served by IP:PORT/static/index.html
-        staticAsset("/dls", "/home/blkr/", new AssetHandler() {
-            @Override
-            public Response handleAsset(Request request, String filePath, String fileExt, Extras extras) {
-                Path p = Paths.get(filePath);
-                try {
-                    int size = (int) Files.size(p);
-                    return Responses.fileStream(200, p.getFileName().toString(), fileExt, FileCache.load(filePath), true, size);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                return Responses.err(404,"Not found "+filePath+"\n");
-            }
-        });
+        staticAsset("/static", "/home/USER/uploads", null);
 
         // Start server with [Number Of Processors] workers
         new Swapp().addCustomHeader("Access-Control-Allow-Origin","*").addModule(this).start(5001);
