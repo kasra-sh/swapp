@@ -26,7 +26,7 @@ public final class Swapp {
     private boolean started = false;
     private Router router = new Router();
     private HashMap<String, String> cHeaders =new HashMap<>();
-    private Set<Map.Entry<String,String>> cHeaderSet;
+    private Set<Map.Entry<String,String>> cHeaderSet = new HashSet<>();
 
     public final void start(int port) {
         start(port, 0);
@@ -157,6 +157,7 @@ public final class Swapp {
         }
 
         private Response injectCustom(Response r){
+            if (cHeaderSet.isEmpty()) return r;
             for (Map.Entry<String,String> ch: cHeaderSet) {
                 r.header(ch.getKey(), ch.getValue());
             }

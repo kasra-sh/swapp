@@ -33,14 +33,10 @@ public class Test extends SwappModule {
         });
 
         // /home/USER/uploads/index.html -> will be served by IP:PORT/static/index.html
-        staticAsset("/","/home/blkr/Downloads", null);
+        staticAsset("/","/home/USER/uploads", null);
 
         // Start server with [Number Of Processors] workers
         new Swapp().addCustomHeader("Access-Control-Allow-Origin","*").addModule(this).start(5001);
-
-//        // Start server with 1 worker
-//        // if workers is set to <=0 the default value will be used
-//        new Swapp().addModule(this).start(8000,1);
 
     }
 
