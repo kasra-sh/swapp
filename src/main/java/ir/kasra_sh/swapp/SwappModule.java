@@ -34,6 +34,34 @@ public abstract class SwappModule {
         modulePaths.put(r, handler);
     }
 
+    protected final void asyncPath(String path, BaseHandler handler) {
+        asyncPath(Route.make(path, false), handler);
+    }
+
+    protected final void asyncPath(Route r, BaseHandler handler, HTTPMethod ... methods) {
+        r.setMethods(methods);
+        asyncPath(r, handler);
+    }
+
+    protected final void asyncPath(Route r, BaseHandler handler) {
+        path(r, new BaseHandler() {
+            @Override
+            public Response handle(Request r, Extras ex) throws Exception {
+                Async.execute(r, ex.getWriter(), new Async.Task() {
+                    @Override
+                    public Response run() {
+                        try {
+                            return handler.handle(r,ex);
+                        } catch (Exception e) {
+                            return Responses.err(500, "500 - Internal Server Error!\n");
+                        }
+                    }
+                });
+                return null;
+            }
+        });
+    }
+
     protected final void get(Route r, BaseHandler handler) {
         path(r, handler, HTTPMethod.GET);
     }
@@ -42,12 +70,28 @@ public abstract class SwappModule {
         get(Route.make(path, false), handler);
     }
 
+    protected final void asyncGet(Route r, BaseHandler handler) {
+        asyncPath(r, handler, HTTPMethod.GET);
+    }
+
+    protected final void asyncGet(String path, BaseHandler handler) {
+        asyncPath(Route.make(path,false), handler, HTTPMethod.GET);
+    }
+
     protected final void post(Route r, BaseHandler handler) {
         path(r, handler, HTTPMethod.POST);
     }
 
     protected final void post(String path, BaseHandler handler) {
         post(Route.make(path, false), handler);
+    }
+
+    protected final void asyncPost(Route r, BaseHandler handler) {
+        asyncPath(r, handler, HTTPMethod.POST);
+    }
+
+    protected final void asyncPost(String path, BaseHandler handler) {
+        asyncPath(Route.make(path,false), handler, HTTPMethod.POST);
     }
 
     protected final void head(Route r, BaseHandler handler) {
