@@ -77,12 +77,18 @@ public abstract class SwappModule {
             @Override
             public Response handle(Request r, Extras ex) throws Exception {
                 String fp = dir;
-                System.out.println("url" + r.getUrl());
+//                System.out.println("url" + r.getUrl());
                 if (fp.endsWith("/") && fp.length() > 1) {
                     fp = fp.substring(0, fp.length() - 1);
                 }
-                fp += ex.pathExtras(true, false);
-                System.out.println("fp : "+fp);
+                String pe = ex.pathExtras(false, false);
+                if (!pe.startsWith("/") && !fp.endsWith("/")) {
+                    fp = fp + "/" + pe;
+                } else if (pe.endsWith("/") && fp.startsWith("/")){
+                    fp = fp + pe.substring(1);
+                } else {
+                    fp = fp + pe;
+                }
                 String[] e = fp.split("\\.");
                 String ext = "";
                 if (e.length > 0) {
@@ -120,11 +126,11 @@ public abstract class SwappModule {
             try {
                 fsize = (int) Files.size(p);
                 String name = p.getFileName().toString();
-                System.out.println("path = "+filePath);
+//                System.out.println("path = " + filePath);
                 return Responses.fileStream(200, name, fileExt, FileCache.load(filePath), fsize);
             } catch (IOException e) {
             }
-            return Responses.err(404, "File not found: "+filePath);
+            return Responses.err(404, "File not found: " + filePath);
         }
     };
 
