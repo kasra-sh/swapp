@@ -127,7 +127,8 @@ public abstract class SwappModule {
                 fsize = (int) Files.size(p);
                 String name = p.getFileName().toString();
 //                System.out.println("path = " + filePath);
-                return Responses.fileStream(200, name, fileExt, FileCache.load(filePath), fsize);
+                return Responses.fileStream(200, name, fileExt, FileCache.load(filePath), true, fsize)
+                        .header("Content-Disposition","inline");
             } catch (IOException e) {
             }
             return Responses.err(404, "File not found: " + filePath);

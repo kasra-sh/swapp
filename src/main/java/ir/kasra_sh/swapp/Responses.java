@@ -66,12 +66,12 @@ public class Responses {
         return Response.make(code).bodyJson(json.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static Response fileStream(int code, String fileName, String fileExt ,InputStream stream, int fileSize) {
+    public static Response fileStream(int code, String fileName, String fileExt ,InputStream stream, boolean inline ,int fileSize) {
         Response resp = Response.make(code);
         resp.header("Content-Length", String.valueOf(fileSize));
         if (fileName!=null){
             if (!fileName.equals("")) {
-                resp.header("Content-Disposition","attachment; filename=\""+fileName+"\"");
+                resp.header("Content-Disposition",inline?"inline":"attachment"+"; filename=\""+fileName+"\"");
             }
         }
         resp.setStreamBody(true);

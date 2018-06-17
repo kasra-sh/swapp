@@ -1,9 +1,12 @@
 package ir.kasra_sh.examples;
 
-import ir.kasra_sh.swapp.Async;
-import ir.kasra_sh.swapp.Responses;
-import ir.kasra_sh.swapp.Swapp;
-import ir.kasra_sh.swapp.SwappModule;
+import ir.kasra_sh.picohttpd.http.request.Request;
+import ir.kasra_sh.picohttpd.http.response.Response;
+import ir.kasra_sh.swapp.*;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Test extends SwappModule {
     {
@@ -33,7 +36,20 @@ public class Test extends SwappModule {
         });
 
         // /home/USER/uploads/index.html -> will be served by IP:PORT/static/index.html
-        staticAsset("/","/home/USER/uploads", null);
+        staticAsset("/dls", "/home/blkr/", new AssetHandler() {
+            @Override
+            public Response handleAsset(Request request, String filePath, String fileExt, Extras extras) {
+                Path p = Paths.get(filePath);
+                try {
+                    int size = (int) Files.size(p);
+                    return Responses.fileStream(200, p.getFileName().toString(), fileExt, FileCache.load(filePath), true, size);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                return Responses.err(404,"Not found "+filePath+"\n");
+            }
+        });
 
         // Start server with [Number Of Processors] workers
         new Swapp().addCustomHeader("Access-Control-Allow-Origin","*").addModule(this).start(5001);
