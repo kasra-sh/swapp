@@ -1,12 +1,6 @@
 package ir.kasra_sh.examples;
 
-import ir.kasra_sh.picohttpd.http.request.Request;
-import ir.kasra_sh.picohttpd.http.response.Response;
 import ir.kasra_sh.swapp.*;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Test extends SwappModule {
     {
