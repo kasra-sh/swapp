@@ -26,10 +26,13 @@ public class Async {
             public void run() {
                 try {
                     Response res = task.run();
-                    if (res.isStreamBody())
+                    if (res.isStreamBody()) {
+                        Log.d("ASYNC","Stream Body");
                         writer.writeStream(res.asByteArray(), res.getSBody(), res.getSBodyLen());
-                    else
+                    }else {
+                        Log.d("ASYNC","NonStream Body");
                         writer.write(res);
+                    }
                     Log.i("Swapp/Async", r.method() + r.getAddress().toString() + " - " + r.getUrl() + " - " + res.getStatus());
                 } catch (Exception e) {
                     e.printStackTrace();
