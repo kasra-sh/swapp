@@ -27,10 +27,10 @@ public class Async {
                 try {
                     Response res = task.run();
                     if (res.isStreamBody()) {
-                        Log.d("ASYNC","Stream Body");
+//                        Log.d("ASYNC","Stream Body");
                         writer.writeStream(res.asByteArray(), res.getSBody(), res.getSBodyLen());
                     }else {
-                        Log.d("ASYNC","NonStream Body");
+//                        Log.d("ASYNC","NonStream Body");
                         writer.write(res);
                     }
 
