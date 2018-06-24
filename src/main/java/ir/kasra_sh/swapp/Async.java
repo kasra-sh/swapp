@@ -33,6 +33,7 @@ public class Async {
                         Log.d("ASYNC","NonStream Body");
                         writer.write(res);
                     }
+
                     Log.i("Swapp/Async", r.method() + r.getAddress().toString() + " - " + r.getUrl() + " - " + res.getStatus());
                 } catch (Exception e) {
                     e.printStackTrace();
