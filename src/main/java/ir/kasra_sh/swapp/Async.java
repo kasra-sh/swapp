@@ -14,7 +14,7 @@ public class Async {
         Response run() throws IOException;
     }
 
-    private static final Executor executor = new ForkJoinPool(20);
+    private static final Executor executor = Executors.newWorkStealingPool(20);
 
     public static void execute(Request r, ResponseWriter writer, Task task) {
         executor.execute(new Runnable() {
