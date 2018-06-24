@@ -14,7 +14,11 @@ public class Async {
         Response run() throws IOException;
     }
 
-    private static final Executor executor = Executors.newWorkStealingPool(20);
+    private static Executor executor = Executors.newWorkStealingPool(20);
+
+    public static void setExecutor(Executor executor) {
+        Async.executor = executor;
+    }
 
     public static void execute(Request r, ResponseWriter writer, Task task) {
         executor.execute(new Runnable() {

@@ -1,9 +1,9 @@
 package ir.kasra_sh.examples;
 
-import ir.kasra_sh.swapp.*;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import ir.kasra_sh.swapp.Async;
+import ir.kasra_sh.swapp.Responses;
+import ir.kasra_sh.swapp.Swapp;
+import ir.kasra_sh.swapp.SwappModule;
 
 public class Test extends SwappModule {
     {
