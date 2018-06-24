@@ -15,6 +15,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.Deflater;
 
 public abstract class SwappModule {
@@ -51,7 +54,8 @@ public abstract class SwappModule {
                     @Override
                     public Response run() {
                         try {
-                            return handler.handle(r,ex);
+                            Response rp = handler.handle(r,ex);
+                            return rp;
                         } catch (Exception e) {
                             return Responses.err(500, "500 - Internal Server Error!\n");
                         }

@@ -1,9 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.kasra-sh:picohttpd:0.8.5">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/Could not resolve com.github.kasra-sh:picohttpd:0.8.5." />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kasra-sh/picohttpd/0.8.5/a7b0841caa9fad14a24c6eeb5cf56d15207939f9/picohttpd-0.8.5.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kasra-sh/picohttpd/0.8.5/c1d77ce47d4a1cef218846191a1d9ac55f0c4cc/picohttpd-0.8.5-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

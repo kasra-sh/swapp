@@ -14,8 +14,11 @@ import ir.kasra_sh.swapp.routing.Router;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ForkJoinPool;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Executors;
 
 import static ir.kasra_sh.picohttpd.http.response.ResponseCode.METHOD_NOT_ALLOWED;
 
@@ -41,7 +44,7 @@ public final class Swapp {
         }
         pico.setHandler(new SwappHandler(router));
         try {
-            if (workers>0) pico.setExecutor(new ForkJoinPool(workers));
+            if (workers>0) pico.setExecutor(Executors.newWorkStealingPool(workers));
             pico.start(port);
             NanoLogger.i("Nano",
                     "Started on " + port + ", "
@@ -120,7 +123,6 @@ public final class Swapp {
                     responseWriter.write(injectCustom(ErrorHandlers.err404.handle(request, null)));
                 } else {
                     if (!mr.getRoute().getMethods().contains(request.method()) && !mr.getRoute().getMethods().isEmpty()) {
-//                        Log.i("Route", "405 - "+request.method());
                         reqLog(METHOD_NOT_ALLOWED, request.getAddress().toString(), request.getUrl(), request.method());
                         responseWriter.write(injectCustom(Responses.err(METHOD_NOT_ALLOWED, "405 - Method not allowed "+request.method())));
                         return;

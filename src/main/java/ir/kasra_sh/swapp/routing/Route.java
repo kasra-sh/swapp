@@ -3,14 +3,13 @@ package ir.kasra_sh.swapp.routing;
 import ir.kasra_sh.picohttpd.http.request.HTTPMethod;
 import ir.kasra_sh.picohttpd.utils.NanoLogger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Route {
     private String basePath;
     private int extras;
     private List<HTTPMethod> methods = new ArrayList<>();
+    private Set<Map.Entry<String, String>> eset;
 
     Route() { }
 

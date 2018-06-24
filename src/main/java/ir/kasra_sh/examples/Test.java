@@ -2,17 +2,21 @@ package ir.kasra_sh.examples;
 
 import ir.kasra_sh.swapp.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Test extends SwappModule {
     {
-        get("/sync/get", ((r, ex) -> Responses.ok("I am a simple sync response! (GET)\n")));
+        get("/sync/get", ((r, ex) -> {
+                return Responses.ok("This is a Synchronous Response!\n");
+        }));
 
         post("/test", ((r, ex) -> {
             return Responses.json(200, new String(r.getBody()));
         }));
 
-        get("/async/get", (r, ex) -> {
-            Async.execute(r, ex.getWriter(), () -> Responses.ok("I am a simple [Async] response! (GET)\n"));
-            return null;
+        asyncGet("/async/get", (r, ex) -> {
+            return Responses.ok("This is an Asynchronous Response!\n");
         });
 
         post("/async/post", (r, ex) -> {
