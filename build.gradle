@@ -1,5 +1,5 @@
 group 'ir.kasra_sh'
-version '1.2.1'
+version '1.2.2'
 
 apply plugin: 'idea'
 apply plugin: 'java'
@@ -8,8 +8,8 @@ apply plugin: 'maven'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
     maven { url 'https://jitpack.io' }
+    mavenCentral()
 }
 
 dependencies {

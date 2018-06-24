@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
 
 import static ir.kasra_sh.picohttpd.http.response.ResponseCode.METHOD_NOT_ALLOWED;
 
@@ -40,7 +41,7 @@ public final class Swapp {
         }
         pico.setHandler(new SwappHandler(router));
         try {
-
+            if (workers>0) pico.setExecutor(new ForkJoinPool(workers));
             pico.start(port);
             NanoLogger.i("Nano",
                     "Started on " + port + ", "
