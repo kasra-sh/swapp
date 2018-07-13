@@ -9,6 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="swapp_main" />
     <orderEntry type="library" name="Gradle: com.github.kasra-sh:picohttpd:0.8.9" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="swapp_main" />

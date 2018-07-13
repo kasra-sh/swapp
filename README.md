@@ -46,7 +46,7 @@ public class Test extends SwappModule {
 
         // Responds to IP:PORT/api/echo and echoes request body
         post("/api/echo", ((r, ex) -> {
-                return Responses.json(200, "{\"request_body\":\""+new String(r.getBody())+"\"}");
+                return Responses.json(200, r.getBody());
         }));
 
         // Finally glue modules together and start!
